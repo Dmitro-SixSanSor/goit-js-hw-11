@@ -2,30 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/goit-js-hw-11/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <title>Vanilla App Template</title>
     <script type="module" crossorigin src="/goit-js-hw-11/index.js"></script>
     <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-BWu8EiFK.js">
     <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/vendor-DnveWo0P.css">
     <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/index-DvPDDfy5.css">
   </head>
   <body>
-    <div class="container">
+    <main>
       <form class="search-form">
         <input
+          class="search-input"
           type="text"
-          id="image-input"
+          id="input"
           name="query"
           placeholder="Search images..."
         />
-        <button type="submit" id="search-button">Search</button>
+        <button type="submit" class="search-button">Search</button>
       </form>
-    </div>
-
-    <ul class="gallery"></ul>
+      <div class="loader-box hidden">
+        <span class="loader">Loading images, please wait...</span>
+      </div>
+      <ul class="gallery"></ul>
+    </main>
   </body>
 </html>
