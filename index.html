@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/goit-js-hw-11/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>Homework 11</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
     <script type="module" crossorigin src="/goit-js-hw-11/index.js"></script>
     <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-BWu8EiFK.js">
     <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/vendor-DnveWo0P.css">
@@ -12,20 +18,21 @@
   </head>
   <body>
     <main>
-      <form class="search-form">
-        <input
-          class="search-input"
-          type="text"
-          id="input"
-          name="query"
-          placeholder="Search images..."
-        />
-        <button type="submit" class="search-button">Search</button>
-      </form>
-      <div class="loader-box hidden">
-        <span class="loader">Loading images, please wait...</span>
-      </div>
+      <search>
+        <form>
+          <input
+            type="text"
+            name="search-text"
+            id="search-text"
+            placeholder="Search images..."
+          />
+          <button type="submit">Search</button>
+        </form>
+      </search>
+
+      <p class="loader-box hidden"><span class="loader"></span></p>
       <ul class="gallery"></ul>
     </main>
+
   </body>
 </html>
