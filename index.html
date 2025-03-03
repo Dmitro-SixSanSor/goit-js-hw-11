@@ -18,19 +18,20 @@
   </head>
   <body>
     <main>
-      <search>
-        <form class="search-form">
+      <section>
+        <form class="form search-form">
           <input
             type="text"
             name="search-text"
             id="search-text"
             placeholder="Search images..."
           />
-          <button type="submit">Search</button>
+          <button type="submit" id="search-button">Search</button>
         </form>
-      </search>
+      </section>
 
-      <p class="loader-box hidden"><span class="loader"></span></p>
+      <div class="loader hidden"></div>
+
       <ul class="gallery"></ul>
     </main>
 
