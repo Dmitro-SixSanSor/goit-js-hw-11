@@ -24,7 +24,7 @@ refs.form.addEventListener('submit', e => {
     return;
   }
 
-  searchImg(query)
+  fetchImages(query)
     .then(data => {
       if (data.hits.length === 0) {
         iziToast.info({
