@@ -1,9 +1,6 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-
 import { fetchImages } from './js/pixabay-api';
 import { renderGallery } from './js/render-functions';
 
@@ -14,11 +11,6 @@ export const refs = {
   gallery: document.querySelector('.gallery'),
   loader: document.querySelector('.loader-box') 
 };
-
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
 
 function toggleLoader() {
   refs.loader.classList.toggle('hidden');
@@ -55,10 +47,7 @@ if (refs.form) {
           position: 'topRight',
         });
       } else {
-        const markup = renderGallery(data.hits);
-        refs.gallery.innerHTML = markup;
-
-        lightbox.refresh();
+        renderGallery(data.hits, refs.gallery);
       }
     } catch (error) {
       iziToast.error({
@@ -75,5 +64,3 @@ if (refs.form) {
 } else {
   console.error("Форма не знайдена в DOM!");
 }
-
-export { clearGallery, toggleLoader, lightbox };
