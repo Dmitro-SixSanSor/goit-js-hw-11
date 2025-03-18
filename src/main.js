@@ -9,7 +9,7 @@ export const refs = {
   input: document.querySelector('#search-text'),
   button: document.querySelector('button[type="submit"]'),
   gallery: document.querySelector('.gallery'),
-  loader: document.querySelector('.loader-box') 
+  loader: document.querySelector('.loader') 
 };
 
 function toggleLoader() {
