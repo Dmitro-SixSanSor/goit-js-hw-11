@@ -2,36 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 11</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>Document</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <main>
-      <section>
-        <form class="form search-form">
-          <input
-            type="text"
-            name="search-text"
-            id="search-text"
-            placeholder="Search images..."
-          />
-          <button type="submit" id="search-button">Search</button>
-        </form>
-      </section>
+    <div class="container">
+      <form class="search-form">
+        <input
+          type="text"
+          id="image-input"
+          name="query"
+          placeholder="Search images..."
+        />
+        <button type="submit" id="search-button">Search</button>
+      </form>
+    </div>
 
-      <span class="loader hidden"></span>
-
-      <ul class="gallery"></ul>
-    </main>
-
+    <ul class="gallery"></ul>
     <script type="module" src="./main.js"></script>
   </body>
 </html>
