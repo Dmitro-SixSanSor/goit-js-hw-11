@@ -1,72 +1,66 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-import { searchImg } from './js/pixabay-api.js';
-import { imgsTemplate, lightbox } from './js/render-functions.js';
+import { fetchImages } from './js/pixabay-api';
+import { renderGallery } from './js/render-functions';
 
 export const refs = {
   form: document.querySelector('.search-form'),
   input: document.querySelector('#search-text'),
   button: document.querySelector('button[type="submit"]'),
   gallery: document.querySelector('.gallery'),
-  loader: document.querySelector('.loader'),
+  loader: document.querySelector('.loader') // виправив
 };
 
-function toggleLoader(show) {
-  if (show) {
-    refs.loader.classList.remove('hidden');
-  } else {
-    refs.loader.classList.add('hidden');
-  }
+function toggleLoader() {
+  refs.loader.classList.toggle('hidden');
 }
 
-refs.form.addEventListener('submit', e => {
-  e.preventDefault();
-  const query = refs.input.value.trim();
+function clearGallery() {
+  refs.gallery.innerHTML = '';
+}
 
-  if (query === '') {
-    iziToast.warning({
-      title: '',
-      message: 'Please enter a search query.',
-      messageColor: '#fafafb',
-      backgroundColor: '#ffa000',
-      messageSize: '16px',
-      position: 'topRight',
-      maxWidth: '432px',
-    });
-    return;
-  }
+if (refs.form) {
+  refs.form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const query = refs.input.value.trim();
 
-  refs.gallery.innerHTML = '';   
-  toggleLoader(true);            
-  refs.form.reset();       
+    if (query === '') {
+      iziToast.error({
+        title: 'Error',
+        message: 'Please enter a search query.',
+        position: 'topRight',
+      });
+      return;
+    }
 
-  searchImg(query)
-    .then(({ data }) => {
-      toggleLoader(false);   
+    clearGallery(); 
+    toggleLoader();
 
+    try {
+      const data = await fetchImages(query);
+      
       if (data.hits.length === 0) {
         iziToast.info({
-          title: '',
-          message: 'Sorry, there are no images matching your search query. Please try again!',
-          messageColor: '#fafafb',
-          backgroundColor: '#ef4040',
-          messageSize: '16px',
+          title: 'No Results',
+          message: 'No images found for your search.',
           position: 'topRight',
-          maxWidth: '432px',
         });
       } else {
-        refs.gallery.innerHTML = imgsTemplate(data.hits);
-        lightbox.refresh();
+        renderGallery(data.hits, refs.gallery);
       }
-    })
-    .catch(error => {
-      toggleLoader(false);  
-      console.error('Fetch error:', error);
+    } catch (error) {
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong. Please try again.',
         position: 'topRight',
       });
-    });
-});
+    } finally {
+      toggleLoader(); 
+    }
+
+    e.target.reset();
+  });
+} else {
+  console.error("Форма не знайдена в DOM!");
+}
