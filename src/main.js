@@ -1,50 +1,66 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-import { searchImg } from './js/pixabay-api.js';
-import { imgsTemplate, lightbox } from './js/render-functions.js';
+import { fetchImages } from './js/pixabay-api';
+import { renderGallery } from './js/render-functions';
 
 export const refs = {
-    form: document.querySelector('.search-form'),
-    input: document.querySelector('#image-input'),
-    gallery: document.querySelector('.loader')
+  form: document.querySelector('.search-form'),
+  input: document.querySelector('#search-text'),
+  button: document.querySelector('button[type="submit"]'),
+  gallery: document.querySelector('.gallery'),
+  loader: document.querySelector('.loader') // виправив
 };
 
-refs.form.addEventListener('submit', e => {
+function toggleLoader() {
+  refs.loader.classList.toggle('hidden');
+}
+
+function clearGallery() {
+  refs.gallery.innerHTML = '';
+}
+
+if (refs.form) {
+  refs.form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const query = refs.input.value.trim();
 
-  if (query === '') {
-    return;
-  }
-  refs.gallery.innerHTML = '<span class="loader"></span>';
-  refs.form.reset();
+    if (query === '') {
+      iziToast.error({
+        title: 'Error',
+        message: 'Please enter a search query.',
+        position: 'topRight',
+      });
+      return;
+    }
 
-  searchImg(query)
-    .then(({ data }) => {
-      refs.gallery.innerHTML = '';
+    clearGallery(); 
+    toggleLoader();
+
+    try {
+      const data = await fetchImages(query);
       
       if (data.hits.length === 0) {
         iziToast.info({
-          title: '',
-          message: 'Sorry, there are no images matching your search query. Please try again!',
-          messageColor: '#fafafb',
-          backgroundColor: '#ef4040',
-          messageSize: '16px',
+          title: 'No Results',
+          message: 'No images found for your search.',
           position: 'topRight',
-          maxWidth: '432px',
         });
       } else {
-        refs.gallery.innerHTML = imgsTemplate(data.hits);
-        lightbox.refresh();
+        renderGallery(data.hits, refs.gallery);
       }
-    })
-    .catch(error => {
-       refs.gallery.innerHTML = '';
+    } catch (error) {
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong. Please try again.',
         position: 'topRight',
       });
-    });
-});
+    } finally {
+      toggleLoader(); 
+    }
+
+    e.target.reset();
+  });
+} else {
+  console.error("Форма не знайдена в DOM!");
+}
