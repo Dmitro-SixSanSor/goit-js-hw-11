@@ -9,23 +9,42 @@ export const refs = {
   input: document.querySelector('#search-text'),
   button: document.querySelector('button[type="submit"]'),
   gallery: document.querySelector('.gallery'),
-  loader: document.querySelector('.loader') // виправив
+  loader: document.querySelector('.loader'),
 };
 
+function toggleLoader(show) {
+  if (show) {
+    refs.loader.classList.remove('hidden');
+  } else {
+    refs.loader.classList.add('hidden');
+  }
+}
+
 refs.form.addEventListener('submit', e => {
-    e.preventDefault();
-    const query = refs.input.value.trim();
+  e.preventDefault();
+  const query = refs.input.value.trim();
 
   if (query === '') {
+    iziToast.warning({
+      title: '',
+      message: 'Please enter a search query.',
+      messageColor: '#fafafb',
+      backgroundColor: '#ffa000',
+      messageSize: '16px',
+      position: 'topRight',
+      maxWidth: '432px',
+    });
     return;
   }
-  refs.gallery.innerHTML = '<span class="loader"></span>';
-  refs.form.reset();
+
+  refs.gallery.innerHTML = '';   
+  toggleLoader(true);            
+  refs.form.reset();       
 
   searchImg(query)
     .then(({ data }) => {
-      refs.gallery.innerHTML = '';
-      
+      toggleLoader(false);   
+
       if (data.hits.length === 0) {
         iziToast.info({
           title: '',
@@ -42,7 +61,8 @@ refs.form.addEventListener('submit', e => {
       }
     })
     .catch(error => {
-       refs.gallery.innerHTML = '';
+      toggleLoader(false);  
+      console.error('Fetch error:', error);
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong. Please try again.',
