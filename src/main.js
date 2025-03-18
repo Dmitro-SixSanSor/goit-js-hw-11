@@ -1,8 +1,8 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-import { fetchImages } from './js/pixabay-api';
-import { renderGallery } from './js/render-functions';
+import { searchImg } from './js/pixabay-api.js';
+import { imgsTemplate, lightbox } from './js/render-functions.js';
 
 export const refs = {
   form: document.querySelector('.search-form'),
@@ -12,55 +12,41 @@ export const refs = {
   loader: document.querySelector('.loader') // виправив
 };
 
-function toggleLoader() {
-  refs.loader.classList.toggle('hidden');
-}
-
-function clearGallery() {
-  refs.gallery.innerHTML = '';
-}
-
-if (refs.form) {
-  refs.form.addEventListener('submit', async (e) => {
+refs.form.addEventListener('submit', e => {
     e.preventDefault();
     const query = refs.input.value.trim();
 
-    if (query === '') {
-      iziToast.error({
-        title: 'Error',
-        message: 'Please enter a search query.',
-        position: 'topRight',
-      });
-      return;
-    }
+  if (query === '') {
+    return;
+  }
+  refs.gallery.innerHTML = '<span class="loader"></span>';
+  refs.form.reset();
 
-    clearGallery(); 
-    toggleLoader();
-
-    try {
-      const data = await fetchImages(query);
+  searchImg(query)
+    .then(({ data }) => {
+      refs.gallery.innerHTML = '';
       
       if (data.hits.length === 0) {
         iziToast.info({
-          title: 'No Results',
-          message: 'No images found for your search.',
+          title: '',
+          message: 'Sorry, there are no images matching your search query. Please try again!',
+          messageColor: '#fafafb',
+          backgroundColor: '#ef4040',
+          messageSize: '16px',
           position: 'topRight',
+          maxWidth: '432px',
         });
       } else {
-        renderGallery(data.hits, refs.gallery);
+        refs.gallery.innerHTML = imgsTemplate(data.hits);
+        lightbox.refresh();
       }
-    } catch (error) {
+    })
+    .catch(error => {
+       refs.gallery.innerHTML = '';
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong. Please try again.',
         position: 'topRight',
       });
-    } finally {
-      toggleLoader(); 
-    }
-
-    e.target.reset();
-  });
-} else {
-  console.error("Форма не знайдена в DOM!");
-}
+    });
+});
