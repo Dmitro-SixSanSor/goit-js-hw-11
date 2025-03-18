@@ -7,7 +7,7 @@ import { imgsTemplate, lightbox } from './js/render-functions.js';
 export const refs = {
     form: document.querySelector('.search-form'),
     input: document.querySelector('#image-input'),
-    gallery: document.querySelector('.gallery')
+    gallery: document.querySelector('.loader')
 };
 
 refs.form.addEventListener('submit', e => {
