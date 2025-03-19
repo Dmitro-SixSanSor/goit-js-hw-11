@@ -4,6 +4,8 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 let lightbox = null;
 
 export function renderGallery(images, galleryElement) {
+    console.log('Images to render:', images);
+
     const markup = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
         <a href="${largeImageURL}" class="gallery-item">
             <img src="${webformatURL}" alt="${tags}" />
@@ -24,9 +26,10 @@ export function renderGallery(images, galleryElement) {
             captionDelay: 250,
         });
     } else {
-        lightbox.refresh();
+        lightbox.refresh(); 
     }
 }
+
 export function clearGallery(galleryElement) {
     galleryElement.innerHTML = '';
 }

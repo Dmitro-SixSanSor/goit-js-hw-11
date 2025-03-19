@@ -1,6 +1,5 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
-
 import { fetchImages } from './js/pixabay-api';
 import { renderGallery } from './js/render-functions';
 
@@ -9,7 +8,7 @@ export const refs = {
   input: document.querySelector('#search-text'),
   button: document.querySelector('button[type="submit"]'),
   gallery: document.querySelector('.gallery'),
-  loader: document.querySelector('.loader') // виправив
+  loader: document.querySelector('.loader')
 };
 
 function toggleLoader() {
@@ -33,23 +32,26 @@ if (refs.form) {
       });
       return;
     }
-
     clearGallery(); 
     toggleLoader();
 
     try {
+      console.log('Fetching images for:', query);  
       const data = await fetchImages(query);
-      
-      if (data.hits.length === 0) {
+
+      console.log('Data received:', data); 
+
+      if (data.length === 0) {
         iziToast.info({
           title: 'No Results',
           message: 'No images found for your search.',
           position: 'topRight',
         });
       } else {
-        renderGallery(data.hits, refs.gallery);
+        renderGallery(data, refs.gallery);
       }
     } catch (error) {
+      console.error('Error in fetching images:', error);
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong. Please try again.',
@@ -59,7 +61,7 @@ if (refs.form) {
       toggleLoader(); 
     }
 
-    e.target.reset();
+    e.target.reset(); 
   });
 } else {
   console.error("Форма не знайдена в DOM!");
