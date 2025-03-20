@@ -1,55 +1,37 @@
 import { getImage } from './js/pixabay-api';
-import errorIcon from './img/error.svg';
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+import { hideLoader, renderImages, showLoader, showMessage } from './js/render-functions';
 
-export const iziOption = {
-  messageColor: '#FAFAFB',
-  messageSize: '16px',
-  backgroundColor: '#EF4040',
-  iconUrl: errorIcon,
-  transitionIn: 'bounceInLeft',
-  position: 'topRight',
-  displayMode: 'replace',
-  closeOnClick: true,
-};
+const form = document.querySelector('.form'); 
+const input = document.querySelector('.user-input'); 
 
-document.querySelector('.form').addEventListener('submit', event => {
-  event.preventDefault();
-  
-  const input = document.querySelector('.user-input').value.trim();
-  const box = document.querySelector('.gallery');
-  const loader = document.querySelector('.loader');
+form.addEventListener('submit', handleSubmit);
 
-  if (!input) {
-    iziToast.show({
-      ...iziOption,
-      message: 'Please enter the search query',
-    });
+function handleSubmit(e) {
+  e.preventDefault();
+
+  const searchText = input.value.trim(); 
+
+  if (!searchText) {
+    showMessage('Please enter a search query');
     return;
   }
 
-  box.innerHTML = '';  
-  loader.classList.remove('hidden');  
+  input.value = ''; 
 
-  
-  getImage(input)
-    .then(images => {
-      loader.classList.add('hidden');  
-      if (images.length > 0) {
-        renderGallery(images, box);  
-      } else {
-        iziToast.show({
-          ...iziOption,
-          message: 'No images found for your search',
-        });
-      }
-    })
-    .catch(() => {
-      loader.classList.add('hidden');  
-      iziToast.show({
-        ...iziOption,
-        message: 'Error loading images. Please try again.',
-      });
+  showLoader(); 
+
+  getImage(searchText) 
+    .then(data => handleSearchResults(data.hits)) 
+    .catch(err => {
+      console.error(err);
+      showMessage('Something went wrong. Please try again later.');
     });
-});
+}
+
+function handleSearchResults(images) {
+  if (!images.length) {
+    showMessage('No images found. Please try another search.');
+  } else {
+    renderImages(images); 
+  }
+}

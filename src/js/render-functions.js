@@ -1,47 +1,92 @@
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import { iziOption } from '../main';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import iconNoResults from '../img/icon-no-results.svg';
 
-export function markup(data) {
-  let { hits } = data;
-  const box = document.querySelector('.gallery');
+const gallery = document.querySelector('.gallery');
+const loader = document.querySelector('.loader-box');
 
-  if (hits.length === 0) {
-    iziToast.show({
-      ...iziOption,
-      message: 'Sorry, there are no images matching your search query. Please, try again!',
-    });
-    box.innerHTML = '';
-    return;
-  }
-
-
-  const markup = hits
+export function renderImages(images) {
+  const galleryHtml = images
     .map(
-      image => `
-      <li class="gallery__item">
-        <a class="gallery__link" href="${image.largeImageURL}">
-          <img class="gallery__img" src="${image.webformatURL}" alt="${image.tags}" />
-          <div class="info">
-            <p><strong>Likes:</strong> <span>${image.likes}</span></p>
-            <p><strong>Views:</strong> <span>${image.views}</span></p>
-            <p><strong>Comments:</strong> <span>${image.comments}</span></p>
-            <p><strong>Downloads:</strong> <span>${image.downloads}</span></p>
-          </div>
-        </a>
-      </li>`
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => `
+          <li class="gallery-item">
+            <a class="gallery-link" href="${largeImageURL}">
+              <figure class="thumb-container">
+                <img
+                  class="thumb-image"
+                  src="${webformatURL}"
+                  data-source="${largeImageURL}"
+                  alt="${tags}"
+                />
+
+                <figcaption class="thumb-data">
+                  <dl class="thumb-data-list">
+                    <div class="thumb-data-item">
+                      <dt class="thumb-data-title">Likes</dt>
+                      <dd class="thumb-data-data">${likes}</dd>
+                    </div>
+                    <div class="thumb-data-item">
+                      <dt class="thumb-data-title">Views</dt>
+                      <dd class="thumb-data-data">${views}</dd>
+                    </div>
+                    <div class="thumb-data-item">
+                      <dt class="thumb-data-title">Comments</dt>
+                      <dd class="thumb-data-data">${comments}</dd>
+                    </div>
+                    <div class="thumb-data-item">
+                      <dt class="thumb-data-title">Downloads</dt>
+                      <dd class="thumb-data-data">${downloads}</dd>
+                    </div>
+                  </dl>
+                </figcaption>
+              </figure>
+            </a>
+          </li>
+        `
     )
     .join('');
 
-
-  box.innerHTML = markup;
-
-
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
+  gallery.innerHTML = galleryHtml;
   lightbox.refresh();
+  hideLoader();
 }
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
+export function showLoader() {
+  gallery.classList.add('hidden'); 
+  loader.classList.remove('hidden'); 
+}
+
+export function hideLoader() {
+  gallery.classList.remove('hidden'); 
+  loader.classList.add('hidden'); 
+}
+
+export function showMessage() {
+  iziToast.show({
+    position: 'topRight',
+    message:
+      'Sorry, there are no images matching your search query. Please try again!',
+    messageSize: '16px',
+    messageLineHeight: '24px',
+    messageColor: 'white',
+    iconUrl: iconNoResults,
+    maxWidth: '432px',
+    backgroundColor: '#EF4040',
+  });
+}
+
