@@ -7,15 +7,17 @@ export function renderGallery(images, galleryElement) {
     console.log('Images to render:', images);
 
     const markup = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
-        <a href="${largeImageURL}" class="gallery-item">
-            <img src="${webformatURL}" alt="${tags}" />
+        <div class="photo-card">
+            <a href="${largeImageURL}" class="gallery-link">
+                <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+            </a>
             <div class="info">
-                <p><b>Likes:</b> ${likes}</p>
-                <p><b>Views:</b> ${views}</p>
-                <p><b>Comments:</b> ${comments}</p>
-                <p><b>Downloads:</b> ${downloads}</p>
+                <p class="info-item"><b>Likes</b><span>${likes}</span></p>
+                <p class="info-item"><b>Views</b><span>${views}</span></p>
+                <p class="info-item"><b>Comments</b><span>${comments}</span></p>
+                <p class="info-item"><b>Downloads</b><span>${downloads}</span></p>
             </div>
-        </a>
+        </div>
     `).join('');
 
     galleryElement.insertAdjacentHTML("beforeend", markup);

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 11</title>
+    <title>Image Gallery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,18 +16,19 @@
   <body>
     <main>
       <section>
-        <form class="form search-form">
+        <form class="search-form">
           <input
             type="text"
             name="search-text"
             id="search-text"
+            class="search-text"
             placeholder="Search images..."
           />
           <button type="submit" id="search-button">Search</button>
         </form>
       </section>
       <div class="gallery"></div>
-      <span class="loader hidden"></span>
+      <div class="loader hidden"></div>
     </main>
 
     <script type="module" src="./main.js"></script>
