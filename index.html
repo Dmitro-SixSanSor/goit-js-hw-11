@@ -1,32 +1,36 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/goit-js-hw-11/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Пошук зображень</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>HW11</title>
+    <script type="module" crossorigin src="/goit-js-hw-11/index.js"></script>
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-XNMCaA0k.js">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/vendor-CX4EDM7x.css">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/index-Bxzk_eAX.css">
   </head>
   <body>
-    <div class="header">
-      <h1>Пошук зображень</h1>
-    </div>
+    <main>
+      <div class="container">
+        <form class="form">
+          <label>
+            <input
+              type="text"
+              name="search-text"
+              placeholder="Search images..."
+              required
+            />
+          </label>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <span class="loader"></span>
+      <div class="loader" hidden></div>
 
-    <form class="form">
-      <input
-        type="text"
-        class="search-text user-input"
-        id="search-text"
-        placeholder="Search for images..."
-      />
-      <button type="submit">Search</button>
-    </form>
-
-    <div class="loader hidden"></div>
-
-    <ul class="gallery"></ul>
-
-    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simplelightbox@2.1.3/dist/simple-lightbox.min.js"></script>
-    <script src="main.js"></script>
+      <div class="ul-container">
+        <ul class="gallery"></ul>
+      </div>
+    </main>
   </body>
 </html>
