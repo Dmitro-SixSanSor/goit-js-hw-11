@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,8 +16,7 @@
   <body>
     <main>
       <section>
-        <!-- Ось тут ми змінюємо клас на "form" -->
-        <form class="form">
+        <form class="search-form">
           <input
             type="text"
             name="search-text"
@@ -28,12 +27,8 @@
           <button type="submit" id="search-button">Search</button>
         </form>
       </section>
-
-      <!-- Заміна div на ul з класом "gallery" -->
-      <ul class="gallery"></ul>
-
-      <!-- Заміна div на span з класом "loader" -->
-      <span class="loader"></span>
+      <div class="gallery"></div>
+      <div class="loader hidden"></div>
     </main>
 
     <script type="module" src="./main.js"></script>
