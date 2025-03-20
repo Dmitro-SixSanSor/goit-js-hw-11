@@ -1,41 +1,47 @@
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import { iziOption } from '../main';
 
-let lightbox = null;
+export function markup(data) {
+  let { hits } = data;
+  const box = document.querySelector('.gallery');
 
-export function renderGallery(images, galleryElement) {
-    console.log('Images to render:', images);
+  if (hits.length === 0) {
+    iziToast.show({
+      ...iziOption,
+      message: 'Sorry, there are no images matching your search query. Please, try again!',
+    });
+    box.innerHTML = '';
+    return;
+  }
 
-    const markup = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
-        <div class="photo-card">
-            <a href="${largeImageURL}" class="gallery-link">
-                <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-            </a>
-            <div class="info">
-                <p class="info-item"><b>Likes</b><span>${likes}</span></p>
-                <p class="info-item"><b>Views</b><span>${views}</span></p>
-                <p class="info-item"><b>Comments</b><span>${comments}</span></p>
-                <p class="info-item"><b>Downloads</b><span>${downloads}</span></p>
-            </div>
-        </div>
-    `).join('');
 
-    galleryElement.insertAdjacentHTML("beforeend", markup);
+  const markup = hits
+    .map(
+      image => `
+      <li class="gallery__item">
+        <a class="gallery__link" href="${image.largeImageURL}">
+          <img class="gallery__img" src="${image.webformatURL}" alt="${image.tags}" />
+          <div class="info">
+            <p><strong>Likes:</strong> <span>${image.likes}</span></p>
+            <p><strong>Views:</strong> <span>${image.views}</span></p>
+            <p><strong>Comments:</strong> <span>${image.comments}</span></p>
+            <p><strong>Downloads:</strong> <span>${image.downloads}</span></p>
+          </div>
+        </a>
+      </li>`
+    )
+    .join('');
 
-    if (!lightbox) {
-        lightbox = new SimpleLightbox('.gallery a', {
-            captionsData: 'alt',
-            captionDelay: 250,
-        });
-        console.log("✅ Lightbox ініціалізований!");
-    } else {
-        
-        lightbox.refresh();
-        console.log("🔄 Lightbox оновлено!");
-    }
+
+  box.innerHTML = markup;
+
+
+  const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  });
+  lightbox.refresh();
 }
-
-export function clearGallery(galleryElement) {
-    galleryElement.innerHTML = '';
-}
-

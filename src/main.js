@@ -1,70 +1,55 @@
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";  
-import { fetchImages } from './js/pixabay-api';  
-import { renderGallery } from './js/render-functions';  
+import { getImage } from './js/pixabay-api';
+import errorIcon from './img/error.svg';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-export const refs = {
-  form: document.querySelector('.form'),
-  input: document.querySelector('#search-text'), 
-  button: document.querySelector('button[type="submit"]'),
-  gallery: document.querySelector('.gallery'),
-  loader: document.querySelector('.loader'),
+export const iziOption = {
+  messageColor: '#FAFAFB',
+  messageSize: '16px',
+  backgroundColor: '#EF4040',
+  iconUrl: errorIcon,
+  transitionIn: 'bounceInLeft',
+  position: 'topRight',
+  displayMode: 'replace',
+  closeOnClick: true,
 };
 
-function showLoader() {
-  refs.loader.classList.remove('hidden');
-}
+document.querySelector('.form').addEventListener('submit', event => {
+  event.preventDefault();
+  
+  const input = document.querySelector('.user-input').value.trim();
+  const box = document.querySelector('.gallery');
+  const loader = document.querySelector('.loader');
 
-function hideLoader() {
-  refs.loader.classList.add('hidden');
-}
+  if (!input) {
+    iziToast.show({
+      ...iziOption,
+      message: 'Please enter the search query',
+    });
+    return;
+  }
 
-function clearGallery() {
-  refs.gallery.innerHTML = '';
-}
+  box.innerHTML = '';  
+  loader.classList.remove('hidden');  
 
-if (refs.form) {
-  refs.form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const query = refs.input.value.trim();
-    
-    if (!query.length) {
-      iziToast.error({
-        title: 'Error',
-        message: 'Please enter a search query.',
-        position: 'topRight',
-      });
-      return;
-    }
-
-    clearGallery();
-    showLoader();
-
-    try {
-      const data = await fetchImages(query);
-      const images = data?.hits || [];
-
-      if (images.length === 0) {
-        iziToast.info({
-          title: 'No Results',
-          message: 'No images found for your search.',
-          position: 'topRight',
-        });
+  
+  getImage(input)
+    .then(images => {
+      loader.classList.add('hidden');  
+      if (images.length > 0) {
+        renderGallery(images, box);  
       } else {
-        renderGallery(images, refs.gallery);
+        iziToast.show({
+          ...iziOption,
+          message: 'No images found for your search',
+        });
       }
-    } catch (error) {
-      iziToast.error({
-        title: 'Error',
-        message: 'Something went wrong. Please try again.',
-        position: 'topRight',
+    })
+    .catch(() => {
+      loader.classList.add('hidden');  
+      iziToast.show({
+        ...iziOption,
+        message: 'Error loading images. Please try again.',
       });
-    } finally {
-      hideLoader();
-    }
-
-    e.target.reset();
-  });
-} else {
-  console.error("⚠️ Форма не знайдена в DOM!");
-}
+    });
+});
