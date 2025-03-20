@@ -11,8 +11,12 @@ export const refs = {
   loader: document.querySelector('.loader')
 };
 
-function toggleLoader() {
-  refs.loader.classList.toggle('hidden');
+function toggleLoader(show) {
+  if (show) {
+    refs.loader.classList.remove('hidden');
+  } else {
+    refs.loader.classList.add('hidden');
+  }
 }
 
 function clearGallery() {
@@ -32,37 +36,38 @@ if (refs.form) {
       });
       return;
     }
+    
     clearGallery(); 
-    toggleLoader();
+    toggleLoader(true);
 
     try {
-      console.log('Fetching images for:', query);  
+      console.log(`🔍 Fetching images for: "${query}"...`);
       const data = await fetchImages(query);
 
-      console.log('Data received:', data); 
-
-      if (data.length === 0) {
+      if (!data || data.length === 0) {
         iziToast.info({
           title: 'No Results',
           message: 'No images found for your search.',
           position: 'topRight',
         });
       } else {
+        console.log(`✅ Received ${data.length} images`);
         renderGallery(data, refs.gallery);
       }
     } catch (error) {
-      console.error('Error in fetching images:', error);
+      console.error('❌ Error in fetching images:', error);
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong. Please try again.',
         position: 'topRight',
       });
     } finally {
-      toggleLoader(); 
+      toggleLoader(false);
     }
 
     e.target.reset(); 
   });
 } else {
-  console.error("Форма не знайдена в DOM!");
+  console.error("⚠️ Форма не знайдена в DOM!");
 }
+
