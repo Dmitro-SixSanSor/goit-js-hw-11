@@ -2,27 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/goit-js-hw-11/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JS-11</title>
+    <title>Image Search</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css"
+    />
     <script type="module" crossorigin src="/goit-js-hw-11/index.js"></script>
     <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-BBPOLzfb.js">
     <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/vendor-Dr4k8ETB.css">
-    <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/index-D_k4W-Tc.css">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/index-D5FRnEe7.css">
   </head>
   <body>
     <main>
-      <form class="form">
+      <form class="search-form">
         <input
           type="text"
-          id="query"
+          id="search-text"
           placeholder="Search images..."
           class="search-input"
         />
         <button type="submit" class="search-button">Search</button>
       </form>
 
-      <span class="loader">Loading images, please wait...</span>
+      <div class="loader hidden">Loading...</div>
 
       <ul class="gallery"></ul>
     </main>
