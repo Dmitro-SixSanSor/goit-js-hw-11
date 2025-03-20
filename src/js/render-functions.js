@@ -18,15 +18,17 @@ export function renderGallery(images, galleryElement) {
         </a>
     `).join('');
 
-    galleryElement.innerHTML = markup;
+    galleryElement.insertAdjacentHTML("beforeend", markup);
 
     if (!lightbox) {
         lightbox = new SimpleLightbox('.gallery a', {
             captionsData: 'alt',
             captionDelay: 250,
         });
+        console.log("✅ Lightbox ініціалізований!");
     } else {
-        lightbox.refresh(); 
+        lightbox.refresh();
+        console.log("🔄 Lightbox оновлено!");
     }
 }
 
