@@ -11,12 +11,12 @@ export const refs = {
   loader: document.querySelector('.loader')
 };
 
-function toggleLoader(show) {
-  if (show) {
-    refs.loader.classList.remove('hidden');
-  } else {
-    refs.loader.classList.add('hidden');
-  }
+function showLoader() {
+  refs.loader.classList.remove('hidden');
+}
+
+function hideLoader() {
+  refs.loader.classList.add('hidden');
 }
 
 function clearGallery() {
@@ -36,12 +36,11 @@ if (refs.form) {
       });
       return;
     }
-    
-    clearGallery(); 
-    toggleLoader(true);
+
+    clearGallery();
+    showLoader();
 
     try {
-      console.log(`🔍 Fetching images for: "${query}"...`);
       const data = await fetchImages(query);
 
       if (!data || data.length === 0) {
@@ -51,23 +50,20 @@ if (refs.form) {
           position: 'topRight',
         });
       } else {
-        console.log(`✅ Received ${data.length} images`);
         renderGallery(data, refs.gallery);
       }
     } catch (error) {
-      console.error('❌ Error in fetching images:', error);
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong. Please try again.',
         position: 'topRight',
       });
     } finally {
-      toggleLoader(false);
+      hideLoader();
     }
 
-    e.target.reset(); 
+    e.target.reset();
   });
 } else {
   console.error("⚠️ Форма не знайдена в DOM!");
 }
-
