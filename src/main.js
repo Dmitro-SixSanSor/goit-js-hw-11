@@ -1,14 +1,14 @@
 import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
-import { fetchImages } from './js/pixabay-api';
-import { renderGallery } from './js/render-functions';
+import "izitoast/dist/css/iziToast.min.css";  
+import { fetchImages } from './js/pixabay-api';  
+import { renderGallery } from './js/render-functions';  
 
 export const refs = {
   form: document.querySelector('.search-form'),
   input: document.querySelector('#search-text'),
   button: document.querySelector('button[type="submit"]'),
   gallery: document.querySelector('.gallery'),
-  loader: document.querySelector('.loader')
+  loader: document.querySelector('.loader'),
 };
 
 function showLoader() {
@@ -23,11 +23,13 @@ function clearGallery() {
   refs.gallery.innerHTML = '';
 }
 
+
 if (refs.form) {
   refs.form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const query = refs.input.value.trim();
 
+    
     if (!query.length) {
       iziToast.error({
         title: 'Error',
@@ -37,13 +39,17 @@ if (refs.form) {
       return;
     }
 
+  
     clearGallery();
+    
     showLoader();
 
     try {
+      
       const data = await fetchImages(query);
-      const images = data.hits; 
+      const images = data.hits;
 
+    
       if (!images || images.length === 0) {
         iziToast.info({
           title: 'No Results',
@@ -51,6 +57,7 @@ if (refs.form) {
           position: 'topRight',
         });
       } else {
+      
         renderGallery(images, refs.gallery);
       }
     } catch (error) {
@@ -60,9 +67,11 @@ if (refs.form) {
         position: 'topRight',
       });
     } finally {
+    
       hideLoader();
     }
 
+  
     e.target.reset();
   });
 } else {

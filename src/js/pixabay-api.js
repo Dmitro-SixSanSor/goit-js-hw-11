@@ -11,10 +11,15 @@ export async function fetchImages(query) {
                 q: query,
                 image_type: 'photo',
                 orientation: 'horizontal',
-                safesearch: true
+                safesearch: true,
             }
         });
-        return response.data.hits;
+
+        if (response.data && response.data.hits) {
+            return response.data.hits;
+        } else {
+            throw new Error('No images found');
+        }
     } catch (error) {
         console.error('Error fetching images:', error);
         throw error;

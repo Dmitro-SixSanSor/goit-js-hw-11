@@ -29,6 +29,7 @@ export function renderGallery(images, galleryElement) {
         });
         console.log("✅ Lightbox ініціалізований!");
     } else {
+        
         lightbox.refresh();
         console.log("🔄 Lightbox оновлено!");
     }
@@ -37,3 +38,4 @@ export function renderGallery(images, galleryElement) {
 export function clearGallery(galleryElement) {
     galleryElement.innerHTML = '';
 }
+
