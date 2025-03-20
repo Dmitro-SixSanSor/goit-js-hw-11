@@ -6,32 +6,40 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f8f9fa;
+  background-color: #f7f7f7;
   color: #212529;
-  padding: 20px;
+  padding: 0;
 }
 
+/* Header */
 .header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+.header h1 {
+  font-size: 36px;
+  color: #333;
+  font-weight: 700;
 }
 
 .search-form {
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin-top: 20px;
 }
 
 .search-text {
-  padding: 10px;
+  padding: 12px 20px;
   font-size: 16px;
-  width: 300px;
+  width: 320px;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
 
 button[type='submit'] {
-  padding: 10px 20px;
+  padding: 12px 20px;
   font-size: 16px;
   background-color: #007bff;
   border: none;
@@ -45,10 +53,7 @@ button[type='submit']:hover {
   background-color: #0056b3;
 }
 
-button[type='submit']:active {
-  background-color: #004085;
-}
-
+/* Loader */
 .loader {
   margin: 20px auto;
   width: 50px;
@@ -69,30 +74,51 @@ button[type='submit']:active {
   }
 }
 
+/* Gallery */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-  padding: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 30px;
+  margin-top: 30px;
 }
 
 .gallery-item {
+  position: relative;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
-  padding: 10px;
   background-color: #fff;
-}
-
-.gallery-item:hover {
-  transform: scale(1.03);
 }
 
 .gallery-item img {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.info {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.info p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.info b {
+  font-weight: bold;
 }
 
 @media (max-width: 600px) {
@@ -107,5 +133,9 @@ button[type='submit']:active {
 
   button[type='submit'] {
     width: 100%;
+  }
+
+  .gallery {
+    padding: 15px;
   }
 }
