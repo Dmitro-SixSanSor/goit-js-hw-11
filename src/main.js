@@ -4,8 +4,8 @@ import { fetchImages } from './js/pixabay-api';
 import { renderGallery } from './js/render-functions';  
 
 export const refs = {
-  form: document.querySelector('.search-form'),
-  input: document.querySelector('#search-text'),
+  form: document.querySelector('.form'),
+  input: document.querySelector('#search-text'), 
   button: document.querySelector('button[type="submit"]'),
   gallery: document.querySelector('.gallery'),
   loader: document.querySelector('.loader'),
@@ -23,12 +23,10 @@ function clearGallery() {
   refs.gallery.innerHTML = '';
 }
 
-
 if (refs.form) {
   refs.form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const query = refs.input.value.trim();
-    
     
     if (!query.length) {
       iziToast.error({
@@ -39,17 +37,13 @@ if (refs.form) {
       return;
     }
 
-
     clearGallery();
-    
     showLoader();
 
     try {
-
       const data = await fetchImages(query);
       const images = data?.hits || [];
 
-  
       if (images.length === 0) {
         iziToast.info({
           title: 'No Results',
@@ -57,7 +51,6 @@ if (refs.form) {
           position: 'topRight',
         });
       } else {
-        
         renderGallery(images, refs.gallery);
       }
     } catch (error) {
@@ -67,11 +60,9 @@ if (refs.form) {
         position: 'topRight',
       });
     } finally {
-      
       hideLoader();
     }
 
-    
     e.target.reset();
   });
 } else {
