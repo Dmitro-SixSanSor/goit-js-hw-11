@@ -1,37 +1,37 @@
-import { getImage } from './js/pixabay-api';
-import { hideLoader, renderImages, showLoader, showMessage } from './js/render-functions';
+import { renderImages } from "./js/render-functions";
+import { fetchImages } from "./js/pixabay-api";
 
-const form = document.querySelector('.form'); 
-const input = document.querySelector('.user-input'); 
+import iziToast from "izitoast";
+import 'izitoast/dist/css/iziToast.min.css';
 
-form.addEventListener('submit', handleSubmit);
+const form = document.querySelector(`form`);
+const gallery = document.querySelector(`.gallery`);
+const loader = document.querySelector(`.loader`);
 
-function handleSubmit(e) {
-  e.preventDefault();
+form.addEventListener(`submit`, async(event)=>{
+    event.preventDefault();
 
-  const searchText = input.value.trim(); 
+    const query = event.target.elements[`search-text`].value.trim();
+    if (!query){
+        iziToast.error({title: `Error`, message: `Please enter a search query!`});
+        return;
+    }
 
-  if (!searchText) {
-    showMessage('Please enter a search query');
-    return;
-  }
+    gallery.innerHTML = ``;
+    loader.classList.add(`visible`);
+    try{
+        const images = await fetchImages(query);
+        console.log(images);
+        
+        if(images.length === 0){
+            iziToast.warning({title: `Oops!`, message: `No images found. Try again!`});
+        }else{
+            renderImages(images);
+        }
+    }catch(error){
+        iziToast.error({title: `Error`, message: ` Failed to fetch images. Try again later!`});
+    }finally{
+        loader.classList.remove(`visible`);
+    }
 
-  input.value = ''; 
-
-  showLoader(); 
-
-  getImage(searchText) 
-    .then(data => handleSearchResults(data.hits)) 
-    .catch(err => {
-      console.error(err);
-      showMessage('Something went wrong. Please try again later.');
-    });
-}
-
-function handleSearchResults(images) {
-  if (!images.length) {
-    showMessage('No images found. Please try another search.');
-  } else {
-    renderImages(images); 
-  }
-}
+});

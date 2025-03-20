@@ -4,35 +4,33 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 11</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto&display=swap"
-      rel="stylesheet"
-    />
+    <title>HW11</title>
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/gallery.css" />
+    <link rel="stylesheet" href="./css/loader.css" />
   </head>
   <body>
     <main>
-      <section class="form">
-        <form>
-          <input
-            type="text"
-            class="user-input"
-            placeholder="Search images..."
-          />
+      <div class="container">
+        <form class="form">
+          <label>
+            <input
+              type="text"
+              name="search-text"
+              placeholder="Search images..."
+              required
+            />
+          </label>
           <button type="submit">Search</button>
         </form>
-      </section>
+      </div>
+      <span class="loader"></span>
+      <div class="loader" hidden></div>
 
-      <p class="loader-box hidden">
-        <span class="loader"></span>
-      </p>
-
-      <ul class="gallery"></ul>
+      <div class="ul-container">
+        <ul class="gallery"></ul>
+      </div>
     </main>
-
     <script type="module" src="./main.js"></script>
   </body>
 </html>
