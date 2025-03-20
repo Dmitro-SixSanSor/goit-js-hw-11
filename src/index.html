@@ -1,34 +1,27 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Gallery</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto&display=swap"
-      rel="stylesheet"
-    />
+    <title>JS-11</title>
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
     <main>
-      <section>
-        <form class="search-form">
-          <input
-            type="text"
-            name="search-text"
-            id="search-text"
-            class="search-text"
-            placeholder="Search images..."
-          />
-          <button type="submit" id="search-button">Search</button>
-        </form>
-      </section>
-      <div class="gallery"></div>
-      <div class="loader hidden"></div>
+      <form class="form">
+        <input
+          type="text"
+          id="query"
+          placeholder="Search images..."
+          class="search-input"
+        />
+        <button type="submit" class="search-button">Search</button>
+      </form>
+
+      <span class="loader">Loading images, please wait...</span>
+
+      <ul class="gallery"></ul>
     </main>
 
     <script type="module" src="./main.js"></script>
