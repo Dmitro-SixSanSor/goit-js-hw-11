@@ -28,7 +28,7 @@ if (refs.form) {
   refs.form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const query = refs.input.value.trim();
-
+    
     
     if (!query.length) {
       iziToast.error({
@@ -39,25 +39,25 @@ if (refs.form) {
       return;
     }
 
-  
+
     clearGallery();
     
     showLoader();
 
     try {
-      
-      const data = await fetchImages(query);
-      const images = data.hits;
 
-    
-      if (!images || images.length === 0) {
+      const data = await fetchImages(query);
+      const images = data?.hits || [];
+
+  
+      if (images.length === 0) {
         iziToast.info({
           title: 'No Results',
           message: 'No images found for your search.',
           position: 'topRight',
         });
       } else {
-      
+        
         renderGallery(images, refs.gallery);
       }
     } catch (error) {
@@ -67,11 +67,11 @@ if (refs.form) {
         position: 'topRight',
       });
     } finally {
-    
+      
       hideLoader();
     }
 
-  
+    
     e.target.reset();
   });
 } else {

@@ -12,6 +12,8 @@ export async function fetchImages(query) {
                 image_type: 'photo',
                 orientation: 'horizontal',
                 safesearch: true,
+                per_page: 20,
+                page: 1, 
             }
         });
 
@@ -25,3 +27,4 @@ export async function fetchImages(query) {
         throw error;
     }
 }
+
