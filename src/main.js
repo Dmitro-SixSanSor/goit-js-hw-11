@@ -25,7 +25,7 @@ form.addEventListener('submit', async (event) => {
   try {
     const images = await fetchImages(query);
 
-    if (images.length === 0) {
+    if (!Array.isArray(images) || images.length === 0) {
       iziToast.warning({
         title: 'Oops!',
         message: 'No images found. Try again!',
@@ -34,6 +34,8 @@ form.addEventListener('submit', async (event) => {
       renderImages(images);
     }
   } catch (error) {
+  
+    console.error('Fetch error:', error);
     iziToast.error({
       title: 'Error',
       message: 'Failed to fetch images. Try again later!',
@@ -50,4 +52,3 @@ function showLoader() {
 function hideLoader() {
   loader.classList.remove('visible');
 }
-
