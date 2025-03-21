@@ -3,12 +3,13 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const gallery = document.querySelector('.gallery');
 
+const lightbox = new SimpleLightbox('.gallery a');
+
 export function clearGallery() {
   gallery.innerHTML = '';
 }
 
 export function renderImages(images) {
-  clearGallery();
 
   const markup = images
     .map(
@@ -42,8 +43,5 @@ export function renderImages(images) {
     .join('');
 
   gallery.innerHTML = markup;
-
-  // Ініціалізуємо lightbox після рендеру
-  const lightbox = new SimpleLightbox('.gallery a');
   lightbox.refresh();
 }

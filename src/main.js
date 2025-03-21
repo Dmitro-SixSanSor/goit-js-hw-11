@@ -28,7 +28,7 @@ form.addEventListener('submit', async (event) => {
     if (!Array.isArray(images) || images.length === 0) {
       iziToast.warning({
         title: 'Oops!',
-        message: 'No images found. Try again!',
+        message: 'Sorry, there are no images matching your search query. Please, try again!',
       });
     } else {
       renderImages(images);
@@ -46,9 +46,9 @@ form.addEventListener('submit', async (event) => {
 });
 
 function showLoader() {
-  loader.classList.add('visible');
+  loader.classList.remove('hidden');
 }
 
 function hideLoader() {
-  loader.classList.remove('visible');
+  loader.classList.add('hidden');
 }

@@ -13,15 +13,11 @@ export async function fetchImages(query) {
             safesearch: true,
         }
     });
-
-
-    console.log(response.data);
     
     return response.data.hits;
 
    } catch(error){
 console.error(`Error fetching images:`, error)
-throw error
    }
    
 }
